@@ -3,7 +3,7 @@
 set -e
 
 echo "starting dockerd ..."
-dockerd -H unix:///var/run/docker.sock --storage-driver overlay --storage-opt "overlay.override_kernel_check=1" > /tmp/build-daemon.log 2>&1 &
+sh -c '/usr/local/bin/dind dockerd -H unix:///var/run/docker.sock --storage-driver overlay --storage-opt "overlay.override_kernel_check=1" > /tmp/build-daemon.log 2>&1' &
 
 echo "pulling images ..."
 timeout -t 30 sh -c "while ! docker ps
