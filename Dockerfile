@@ -33,5 +33,5 @@ EXPOSE 2375
 CMD ["dockerd"]
 
 COPY build-pull.sh /usr/local/bin/
-RUN build-pull.sh
+# RUN build-pull.sh || echo "success anyway"
 
