@@ -26,14 +26,12 @@ RUN set -ex; \
 	chmod +x /usr/local/bin/dind; \
 	apk del .fetch-deps
 
-COPY build-pull.sh /usr/local/bin/
-
 # VOLUME /var/lib/docker
 EXPOSE 2375
 
 # ENTRYPOINT ["dockerd"]
 CMD ["dockerd"]
 
-
+/var/run/docker.pid
 RUN build-pull.sh
 
