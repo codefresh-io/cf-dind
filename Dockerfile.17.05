@@ -1,0 +1,7 @@
+FROM docker:17.05-dind
+
+WORKDIR /cf-images
+
+COPY *.tar ./
+COPY init.sh .
+RUN chmod +x init.sh
