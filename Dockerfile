@@ -32,6 +32,6 @@ EXPOSE 2375
 # ENTRYPOINT ["dockerd"]
 CMD ["dockerd"]
 
-/var/run/docker.pid
+COPY build-pull.sh /usr/local/bin/
 RUN build-pull.sh
 
