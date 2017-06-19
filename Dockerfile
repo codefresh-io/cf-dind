@@ -1,37 +1,16 @@
-FROM docker:17.05
+# Codefresh dind image contains general cf-images to save pull time during build
+# Must set DOCKER_HOST and maybe other DOCKER_CERT + DOCKER_TLS_VERIFY using --build-arg
+# Example:
+#    docker build --build-arg DOCKER_HOST=tcp://docker:9998 -t codefresh/cf-dind:17.05.0-1 .
+FROM docker:17.05.0-ce-dind
 
-# https://github.com/docker/docker/blob/master/project/PACKAGERS.md#runtime-dependencies
-RUN apk add --no-cache \
-		btrfs-progs \
-		e2fsprogs \
-		e2fsprogs-extra \
-		iptables \
-		xfsprogs \
-		xz
+ARG BUILD_DOCKER_HOST
 
-# TODO aufs-tools
+COPY *.sh cf-images init-daemon.json /
 
-# set up subuid/subgid so that "--userns-remap=default" works out-of-the-box
-RUN set -x \
-	&& addgroup -S dockremap \
-	&& adduser -S -G dockremap dockremap \
-	&& echo 'dockremap:165536:65536' >> /etc/subuid \
-	&& echo 'dockremap:165536:65536' >> /etc/subgid
+RUN echo "  BUILD DOCKER_HOST=$BUILD_DOCKER_HOST " && DOCKER_HOST=$BUILD_DOCKER_HOST /build.sh
 
-ENV DIND_COMMIT 3b5fac462d21ca164b3778647420016315289034
+# ENTRYPOINT ["run"]
+CMD ["/run.sh"]
 
-RUN set -ex; \
-	apk add --no-cache --virtual .fetch-deps libressl; \
-	wget -O /usr/local/bin/dind "https://raw.githubusercontent.com/docker/docker/${DIND_COMMIT}/hack/dind"; \
-	chmod +x /usr/local/bin/dind; \
-	apk del .fetch-deps
-
-# VOLUME /var/lib/docker
-EXPOSE 2375
-
-# ENTRYPOINT ["dockerd"]
-CMD ["dockerd"]
-
-COPY build-pull.sh /usr/local/bin/
-# RUN build-pull.sh || echo "success anyway"
 
