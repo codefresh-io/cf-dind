@@ -21,7 +21,7 @@ steps:
         image: alpine:3.5
         command:
           - sleep
-          - 3600
+          - "3600"
         environment:
           BUILD_DOCKER_HOST: "tcp://dind:9998"
         working_dir: '${{CF_VOLUME_PATH}}'
