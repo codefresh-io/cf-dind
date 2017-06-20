@@ -49,8 +49,8 @@ steps:
 
   create_dockerfile_temp:
     image: "alpine:latest"
-    command:
-      - "echo 'FROM codefresh/${{CF_REPO_NAME}}:${{CF_BRANCH}}' > Dockerfile.cfbuild"
+    commands:
+      - 'echo "FROM codefresh/${CF_REPO_NAME}:${CF_BRANCH}" > Dockerfile.cfbuild'
 
   build_cf_dind:
     type: build
