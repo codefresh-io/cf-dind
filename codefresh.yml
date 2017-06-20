@@ -1,7 +1,7 @@
 version: '1.0'
 steps:
-  build-dind-composition:
-    title: "build-dind-composition:"
+  build_dind_composition:
+    title: "Build inside dind composition"
     type: composition
     add_flow_volume_to_composition: true
     composition:
@@ -17,13 +17,22 @@ steps:
             - 9998
           privileged: true
     composition_candidates:
-      test:
-        image: alpine:3.5
-        command:
-          - sleep
-          - "3600"
+      build-dind:
+        image: docker:17.05.0-ce
+        command: "docker build --build-arg BUILD_DOCKER_HOST=${BUILD_DOCKER_HOST} -t ${CF_REPO_OWNER}/${CF_REPO_NAME}:${CF_BRANCH} "
+
         environment:
           BUILD_DOCKER_HOST: "tcp://dind:9998"
-        working_dir: '${{CF_VOLUME_PATH}}'
+          CF_REPO_OWNER: ${{CF_REPO_OWNER}}
+          CF_REPO_NAME: ${{CF_REPO_NAME}}
+          CF_BRANCH: ${{CF_BRANCH}}
+        privileged: true
+        working_dir: '${{CF_VOLUME_PATH}}/cf-dind'
         volumes:
+          - /var/run/docker.sock:/var/run/docker.sock:rw
           - '${{CF_VOLUME_NAME}}:/codefresh/volume'
+
+  push_cf_dind:
+    type: push
+    candidate: '${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}'
+    tag: '${{CF_BRANCH}}'
