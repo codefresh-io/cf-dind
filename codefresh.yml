@@ -28,19 +28,31 @@ steps:
           - |
             sleep 5
             docker build --build-arg BUILD_DOCKER_HOST=tcp://$${CF_HOST_IP}:9998 -t $${RESULT_IMAGE} .
-            sleep 3600
-            echo "After sleep"
         # command: "sleep 3600"
         # command: "docker build --build-arg BUILD_DOCKER_HOST=${BUILD_DOCKER_HOST} -t ${CF_REPO_OWNER}/${CF_REPO_NAME}:${CF_BRANCH} . "
         links:
          - build-dind-daemon
         environment:
-          RESULT_IMAGE: 'codefresh/cf-dind:cfbuild-temp'
+          RESULT_IMAGE: 'codefresh/${{CF_REPO_NAME}}:${{CF_REVISION}}'
         privileged: true
         working_dir: '${{CF_VOLUME_PATH}}/cf-dind'
         volumes:
           - /var/run/docker.sock:/var/run/docker.sock:rw
           - '${{CF_VOLUME_NAME}}:/codefresh/volume'
+
+  push_cf_dind_temp:
+    type: push
+    candidate: 'codefresh/${{CF_REPO_NAME}}:${{CF_BRANCH}}'
+    image_name: 'codefresh/${{CF_REPO_NAME}}'
+    tag: '${{CF_BRANCH}}'
+
+  create_dockerfile_temp:
+    image: "alpine:latest"
+    command:
+      - "sh"
+      - "-c"
+      - |
+        echo "FROM codefresh/${{CF_REPO_NAME}}:${{CF_BRANCH}}" > Dockerfile.cfbuild
 
   build_cf_dind:
     type: build
@@ -51,4 +63,3 @@ steps:
   push_cf_dind:
     type: push
     candidate: '${{build_cf_dind}}'
-
