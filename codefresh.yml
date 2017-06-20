@@ -61,3 +61,4 @@ steps:
   push_cf_dind:
     type: push
     candidate: '${{build_cf_dind}}'
+    tag: '${{CF_BRANCH}}'
