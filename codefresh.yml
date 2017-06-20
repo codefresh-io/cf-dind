@@ -7,18 +7,18 @@ steps:
     composition:
       version: '2'
       services:
-        dummy:
-          image: alpine:3.5
-          command: "sleep 3600"
-#        build-dind-daemon:
-#          image: docker:17.05.0-ce-dind
-#          command:
-#            - dockerd
-#            - -H
-#            - tcp://0.0.0.0:9998
-#          ports:
-#            - 9998:9998
-#          privileged: true
+#        dummy:
+#          image: alpine:3.5
+#          command: "sleep 3600"
+        build-dind-daemon:
+          image: docker:17.05.0-ce-dind
+          command:
+            - dockerd
+            - -H
+            - tcp://0.0.0.0:9998
+          ports:
+            - 9998:9998
+          privileged: true
     composition_candidates:
       builder:
         image: docker:17.05.0-ce
@@ -26,14 +26,16 @@ steps:
           - "sh"
           - "-c"
           - |
-            sleep 3600
-        # docker build --build-arg BUILD_DOCKER_HOST=$${BUILD_DOCKER_HOST} -t $${CF_REPO_OWNER}/$${CF_REPO_NAME}:$${CF_BRANCH} .
+            sleep 5
+            docker build --build-arg BUILD_DOCKER_HOST=$${BUILD_DOCKER_HOST} -t $${CF_REPO_OWNER}/$${CF_REPO_NAME}:$${CF_BRANCH} .
         # command: "sleep 3600"
         # command: "docker build --build-arg BUILD_DOCKER_HOST=${BUILD_DOCKER_HOST} -t ${CF_REPO_OWNER}/${CF_REPO_NAME}:${CF_BRANCH} . "
-        # depends_on:
-        #  - build-dind-daemon
+        depends_on:
+         - build-dind-daemon
+        links:
+         - build-dind-daemon
         environment:
-          BUILD_DOCKER_HOST: 'unix:///var/run/docker.sock'
+          BUILD_DOCKER_HOST: 'tcp://build-dind-daemon:9998'
           CF_REPO_OWNER: '${{CF_REPO_OWNER}}'
           CF_REPO_NAME: '${{CF_REPO_NAME}}'
           CF_BRANCH: '${{CF_BRANCH}}'
