@@ -23,7 +23,7 @@ steps:
           - "sh"
           - "-c"
           - |
-            docker build --build-arg BUILD_DOCKER_HOST=${BUILD_DOCKER_HOST} -t ${CF_REPO_OWNER}/${CF_REPO_NAME}:${CF_BRANCH} .
+            docker build --build-arg BUILD_DOCKER_HOST=$${BUILD_DOCKER_HOST} -t $${CF_REPO_OWNER}/$${CF_REPO_NAME}:$${CF_BRANCH} .
         # command: "sleep 3600"
         # command: "docker build --build-arg BUILD_DOCKER_HOST=${BUILD_DOCKER_HOST} -t ${CF_REPO_OWNER}/${CF_REPO_NAME}:${CF_BRANCH} . "
         depends_on: build_dind_composition
