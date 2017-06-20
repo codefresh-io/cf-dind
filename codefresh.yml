@@ -26,16 +26,14 @@ steps:
           - "sh"
           - "-c"
           - |
-            sleep 3600
-            docker build --build-arg BUILD_DOCKER_HOST=$${BUILD_DOCKER_HOST} -t $${CF_REPO_OWNER}/$${CF_REPO_NAME}:$${CF_BRANCH} .
+            sleep 5
+            BUILD_DOCKER_ADDR=$(getent hosts build-dind-daemon | cut -d' ' -f1)
+            docker build --build-arg BUILD_DOCKER_HOST=tcp://$${BUILD_DOCKER_ADDR}:9998 -t $${CF_REPO_OWNER}/$${CF_REPO_NAME}:$${CF_BRANCH} .
         # command: "sleep 3600"
         # command: "docker build --build-arg BUILD_DOCKER_HOST=${BUILD_DOCKER_HOST} -t ${CF_REPO_OWNER}/${CF_REPO_NAME}:${CF_BRANCH} . "
-        depends_on:
-         - build-dind-daemon
         links:
          - build-dind-daemon
         environment:
-          BUILD_DOCKER_HOST: 'tcp://build-dind-daemon:9998'
           CF_REPO_OWNER: '${{CF_REPO_OWNER}}'
           CF_REPO_NAME: '${{CF_REPO_NAME}}'
           CF_BRANCH: '${{CF_BRANCH}}'
