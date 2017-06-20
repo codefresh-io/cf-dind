@@ -7,23 +7,28 @@ steps:
     composition:
       version: '2'
       services:
-        dind:
+        build-dind-daemon:
           image: docker:17.05.0-ce-dind
           command:
             - dockerd
             - -H
             - tcp://0.0.0.0:9998
           ports:
-            - 9998
+            - 9998:9998
           privileged: true
     composition_candidates:
-      build-dind:
+      builder:
         image: docker:17.05.0-ce
-        command: "sleep 3600"
-        # command: "docker build --build-arg BUILD_DOCKER_HOST=${BUILD_DOCKER_HOST} -t ${CF_REPO_OWNER}/${CF_REPO_NAME}:${CF_BRANCH} "
-
+        command:
+          - "sh"
+          - "-c"
+          - |
+            docker build --build-arg BUILD_DOCKER_HOST=${BUILD_DOCKER_HOST} -t ${CF_REPO_OWNER}/${CF_REPO_NAME}:${CF_BRANCH} .
+        # command: "sleep 3600"
+        # command: "docker build --build-arg BUILD_DOCKER_HOST=${BUILD_DOCKER_HOST} -t ${CF_REPO_OWNER}/${CF_REPO_NAME}:${CF_BRANCH} . "
+        depends_on: build_dind_composition
         environment:
-          BUILD_DOCKER_HOST: 'tcp://dind:9998'
+          BUILD_DOCKER_HOST: 'tcp://build-dind-daemon:9998'
           CF_REPO_OWNER: '${{CF_REPO_OWNER}}'
           CF_REPO_NAME: '${{CF_REPO_NAME}}'
           CF_BRANCH: '${{CF_BRANCH}}'
@@ -35,5 +40,4 @@ steps:
 
   push_cf_dind:
     type: push
-    candidate: '${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}'
-    tag: '${{CF_BRANCH}}'
+    candidate: '${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}:${{CF_BRANCH}}'
