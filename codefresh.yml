@@ -19,7 +19,8 @@ steps:
     composition_candidates:
       build-dind:
         image: docker:17.05.0-ce
-        command: "docker build --build-arg BUILD_DOCKER_HOST=${BUILD_DOCKER_HOST} -t ${CF_REPO_OWNER}/${CF_REPO_NAME}:${CF_BRANCH} "
+        command: "sleep 3600"
+        # command: "docker build --build-arg BUILD_DOCKER_HOST=${BUILD_DOCKER_HOST} -t ${CF_REPO_OWNER}/${CF_REPO_NAME}:${CF_BRANCH} "
 
         environment:
           BUILD_DOCKER_HOST: 'tcp://dind:9998'
