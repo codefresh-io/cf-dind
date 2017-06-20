@@ -22,10 +22,10 @@ steps:
         command: "docker build --build-arg BUILD_DOCKER_HOST=${BUILD_DOCKER_HOST} -t ${CF_REPO_OWNER}/${CF_REPO_NAME}:${CF_BRANCH} "
 
         environment:
-          BUILD_DOCKER_HOST: "tcp://dind:9998"
-          CF_REPO_OWNER: ${{CF_REPO_OWNER}}
-          CF_REPO_NAME: ${{CF_REPO_NAME}}
-          CF_BRANCH: ${{CF_BRANCH}}
+          BUILD_DOCKER_HOST: 'tcp://dind:9998'
+          CF_REPO_OWNER: '${{CF_REPO_OWNER}}'
+          CF_REPO_NAME: '${{CF_REPO_NAME}}'
+          CF_BRANCH: '${{CF_BRANCH}}'
         privileged: true
         working_dir: '${{CF_VOLUME_PATH}}/cf-dind'
         volumes:
