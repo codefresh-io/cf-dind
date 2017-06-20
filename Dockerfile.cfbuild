@@ -1,4 +1,4 @@
 # for build step of codefresh.yml
 # assumes that cf-dind:temp was already built in previous step
 #
-FROM cf-dind:cfbuild
+FROM cf-dind:cfbuild-temp

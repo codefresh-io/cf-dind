@@ -34,7 +34,7 @@ steps:
         links:
          - build-dind-daemon
         environment:
-          RESULT_IMAGE: 'codefresh/cf-dind:${{CF_REVISION}}'
+          RESULT_IMAGE: 'codefresh/cf-dind:cfbuild-temp'
         privileged: true
         working_dir: '${{CF_VOLUME_PATH}}/cf-dind'
         volumes:
