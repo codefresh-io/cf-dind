@@ -28,12 +28,13 @@ steps:
           - |
             sleep 5
             docker build --build-arg BUILD_DOCKER_HOST=tcp://$${CF_HOST_IP}:9998 -t $${RESULT_IMAGE} .
+            sleep 600
         # command: "sleep 3600"
         # command: "docker build --build-arg BUILD_DOCKER_HOST=${BUILD_DOCKER_HOST} -t ${CF_REPO_OWNER}/${CF_REPO_NAME}:${CF_BRANCH} . "
         links:
          - build-dind-daemon
         environment:
-          RESULT_IMAGE: 'cf-dind:cfbuild'
+          RESULT_IMAGE: 'codefresh/cf-dind:${{CF_REVISION}}'
         privileged: true
         working_dir: '${{CF_VOLUME_PATH}}/cf-dind'
         volumes:
