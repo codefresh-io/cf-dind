@@ -1,0 +1,3 @@
+codefresh/cf-docker-pusher:v2
+codefresh/cf-docker-puller:v2
+codefresh/cf-docker-builder:v5
