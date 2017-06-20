@@ -22,10 +22,12 @@ see test/README.md
 
 ## How to run?
 
-When creating new CF **dind** instance, it should be initialized with pre-loaded CF build helper images (stored as `tar` files). Execute `init.sh` script once.
+When creating new CF **dind** instance, it should be initialized with pre-loaded CF build helper images (stored as `tar` files in /cfimages )
 
 ```sh
 $ # run cf-dind
-$ docker run -d --rm -v /path-to/daemon.json:/etc/docker/daemon.json -v /tmp/dind-1:/var/lib/docker:rw -v /etc/ssl/cf:/etc/ssl/cf:ro codefresh/cf-dind:17.05.0-overlay-v1
+$ docker run --name cf-dind-1 -d --rm -v /path-to/daemon.json:/etc/docker/daemon.json -v /tmp/dind-1:/var/lib/docker:rw -v /etc/ssl/cf:/etc/ssl/cf:ro codefresh/cf-dind:17.05.0-overlay-v1
 $
+$ # check preloaded images
+$ docker exec -it cf-dind-1 docker images
 ```
