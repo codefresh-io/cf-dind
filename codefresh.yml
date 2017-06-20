@@ -1,0 +1,29 @@
+version: '1.0'
+steps:
+  build-dind-composition:
+    title: "build-dind-composition:"
+    type: composition
+    add_flow_volume_to_composition: true
+    composition:
+    version: '2'
+      services:
+        dind:
+          image: docker:17.05.0-ce-dind
+          command:
+            - dockerd
+            - -H
+            - tcp://0.0.0.0:9998
+          ports:
+            - 9998
+          privileged: true
+    composition_candidates:
+      test:
+        image: alpine:3.5
+        command:
+          - sleep
+          - 3600
+        environment:
+          BUILD_DOCKER_HOST: "tcp://dind:9998"
+        working_dir: '${{CF_VOLUME_PATH}}'
+        volumes:
+          - '${{CF_VOLUME_NAME}}:/codefresh/volume'
