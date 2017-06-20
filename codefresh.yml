@@ -5,7 +5,7 @@ steps:
     type: composition
     add_flow_volume_to_composition: true
     composition:
-    version: '2'
+      version: '2'
       services:
         dind:
           image: docker:17.05.0-ce-dind
