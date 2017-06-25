@@ -1,3 +1,4 @@
-codefresh/cf-docker-pusher:v2
-codefresh/cf-docker-puller:v2
+codefresh/cf-git-cloner:v1
 codefresh/cf-docker-builder:v5
+codefresh/cf-docker-pusher:v2
+

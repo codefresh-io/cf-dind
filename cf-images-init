@@ -1,2 +1,2 @@
 codefresh/cf-container-logger:0.0.15
-codefresh/cf-git-cloner:v1
+codefresh/cf-docker-puller:v2
