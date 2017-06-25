@@ -33,7 +33,7 @@ steps:
         links:
          - build-dind-daemon
         environment:
-          RESULT_IMAGE: 'codefresh/${{CF_REPO_NAME}}:${{CF_REVISION}}'
+          RESULT_IMAGE: 'codefresh/${{CF_REPO_NAME}}:${{CF_BRANCH}}'
         privileged: true
         working_dir: '${{CF_VOLUME_PATH}}/cf-dind'
         volumes:
