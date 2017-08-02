@@ -37,6 +37,11 @@ DOCKER_PID_INIT=$(cat ${DOCKER_PIDFILE_INIT})
 echo "Killing init daemon - pid=$DOCKER_PID_INIT "
 kill $DOCKER_PID_INIT
 
+# Adding cleaner
+if [[ -n "${DOCKER_CLEANER_CRON}" ]]; then
+  echo "${DOCKER_CLEANER_CRON} $(realpath $DIR/docker-cleaner.sh) " | crontab
+  crond
+fi
 
 # Starting load run images in background
 load_images /cfimages/*run.tar >>/tmp/docker-load.log 2>&1 &
