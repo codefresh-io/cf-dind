@@ -39,7 +39,7 @@ kill $DOCKER_PID_INIT
 
 # Adding cleaner
 if [[ -n "${DOCKER_CLEANER_CRON}" ]]; then
-  echo "${DOCKER_CLEANER_CRON} $(realpath $DIR/docker-cleaner.sh) " | crontab
+  echo "${DOCKER_CLEANER_CRON} $(realpath $(dirname $0)/docker-cleaner.sh) " | tee -a /etc/crontabs/root
   crond
 fi
 
