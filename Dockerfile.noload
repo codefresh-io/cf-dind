@@ -1,0 +1,7 @@
+FROM docker:17.05.0-ce-dind
+
+COPY *.sh  /
+
+RUN chmod a+x *.sh
+
+CMD ["/run-noload.sh"]

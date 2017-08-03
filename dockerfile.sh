@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-IMAGE_NAME=codefresh/cf-dind:17.05.0-overlay-v2
+IMAGE_NAME=codefresh/cf-dind:with-cleaner
 BUILD_DOCKER_ADDR="192.168.99.100"
 BUILD_DOCKER_PORT=9998
 BUILD_DOCKER_HOST=tcp://${BUILD_DOCKER_ADDR}:${BUILD_DOCKER_PORT}
