@@ -1,4 +1,4 @@
-FROM docker:17.07.0-ce-dind
+FROM docker:17.05.0-ce-dind
 
 ARG BUILD_DOCKER_HOST
 
