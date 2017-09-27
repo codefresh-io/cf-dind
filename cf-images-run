@@ -1,4 +1,4 @@
 alpine:latest
-codefresh/cf-git-cloner:v1
-codefresh/cf-docker-builder:v9
+codefresh/cf-git-cloner:v2
+codefresh/cf-docker-builder:v10
 codefresh/cf-docker-pusher:v2
