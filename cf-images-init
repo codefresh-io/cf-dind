@@ -1,2 +1,3 @@
-codefresh/cf-container-logger:0.0.18
-codefresh/cf-docker-puller:v2
+codefresh/fs-ops:latest
+codefresh/cf-container-logger:0.0.19
+codefresh/cf-docker-puller:v5

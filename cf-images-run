@@ -1,4 +1,3 @@
-alpine:latest
-codefresh/cf-git-cloner:v2
-codefresh/cf-docker-builder:v10
-codefresh/cf-docker-pusher:v2
+codefresh/cf-git-cloner:v5
+codefresh/cf-docker-builder:v13
+codefresh/cf-docker-pusher:v4

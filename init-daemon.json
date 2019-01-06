@@ -1,6 +1,5 @@
 {
   "hosts": [ "unix:///var/run/init-docker.sock"],
-  "storage-driver": "overlay",
-  "storage-opts": ["overlay.override_kernel_check=1"],
+  "storage-driver": "overlay2",
   "pidfile": "/var/run/init-docker.pid"
 }
